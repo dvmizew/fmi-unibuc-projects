@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
         fclose(fisier);
         return -1;
     }
+
     //salvam cuvantul in memorie
     if (!fgets(regula, dimensiune_pattern + 1, pattern)) {
         perror("Eroare la citirea fisierului de pattern");
@@ -49,26 +50,39 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char *buff = malloc(sizeof(char) * 1024);
+    // luam lungimea liniei maxima din fisierul in care cautam
+    size_t dimensiune_max = 0, dim = 0;
+    char c;
+    while ((c = fgetc(fisier)) != EOF) {
+        if (c != '\n')
+            dim++;
+        else {
+            if (dim > dimensiune_max) {
+                dimensiune_max = dim;
+            }
+            dim = 0;
+        }
+    }
+    if (dim > dimensiune_max)
+        dimensiune_max = dim;
+
+    rewind(fisier);
+    
+    // alocam direct maximul pe care il putem avea ca sa nu realocam cate 1024 cum faceam inainte
+    char *buff = malloc(sizeof(char) * (dimensiune_max + 1)); 
     if (!buff) {
-        perror("Malloc-ul pentru array-ul in care salvam block-uri de 1024 de biti nu a functionat");
+        perror("Malloc-ul nu a functionat");
         free(regula);
         fclose(pattern);
         fclose(fisier);
-        return -1;
+        return 1;
     }
 
-    while(fgets(buff, 1024, fisier)) {
+    while(fgets(buff, dimensiune_max + 1, fisier)) {
         // am gasit un match, am afisat
         if (strstr(buff, regula) != NULL) {
             printf("%s", buff);
         }
-        // alocam cate 1024 de biti bufferului ca sa fie cat de cat eficient
-        char *temp = realloc(buff, sizeof(char) * 1024);
-        if (!temp) {
-            perror("Nu mai avem memorie pentru a aloca inca 1024 de biti");
-        }
-        buff = temp;
     }
 
     free(regula);
