@@ -56,15 +56,10 @@ struct list {
 };
 
 int main() {
-	int number_of_elements, x;
 	list list1;
-	std::cin >> number_of_elements;
-	for (int i = 0; i < number_of_elements; i++) {
-		std::cin >> x;
-		list1.insert_at_end(x);
-	}
 	int vec[] = { 1, 2, 3 };
-	list1.insertion_at_the_ends(vec, 3);
+	int number_of_elements = sizeof(vec) / sizeof(int);
+	list1.insertion_at_the_ends(vec, number_of_elements);
 	list1.afisare();
 	return 0;
 }
