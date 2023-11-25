@@ -6,13 +6,13 @@
 
 struct nod_dublu {
     int data;
-    nod_dublu* prev;
-    nod_dublu* next;
+    nod_dublu *prev;
+    nod_dublu *next;
 };
 
 struct doubly_linked_list {
-    nod_dublu* first_element;
-    nod_dublu* last_element;
+    nod_dublu *first_element;
+    nod_dublu *last_element;
 
     doubly_linked_list() {
         first_element = nullptr;
@@ -20,7 +20,7 @@ struct doubly_linked_list {
     }
 
     void insert(int x) {
-        nod_dublu* nou = new nod_dublu;
+        nod_dublu *nou = new nod_dublu;
         nou->data = x;
         nou->prev = nullptr;
         nou->next = first_element;
@@ -33,7 +33,7 @@ struct doubly_linked_list {
 
         first_element = nou;
 
-        nod_dublu* nou_invers = new nod_dublu;
+        nod_dublu *nou_invers = new nod_dublu;
         nou_invers->data = -x;
         nou_invers->prev = last_element;
         nou_invers->next = nullptr;
@@ -48,7 +48,7 @@ struct doubly_linked_list {
     }
 
     void extract(int x) {
-        nod_dublu* current = first_element;
+        nod_dublu *current = first_element;
 
         while (current != nullptr) {
             if (current->data == x || current->data == -x) {
@@ -61,7 +61,7 @@ struct doubly_linked_list {
                 else
                     last_element = current->prev;
 
-                nod_dublu* invers = (current->data == x) ? current->next : current->prev;
+                nod_dublu *invers = (current->data == x) ? current->next : current->prev;
                 if (invers != nullptr) {
                     if (invers->prev != nullptr) {
                         invers->prev->next = invers->next;
@@ -86,7 +86,7 @@ struct doubly_linked_list {
 
 
     void show() const {
-        nod_dublu* pointer;
+        nod_dublu *pointer;
         for (pointer = first_element; pointer != nullptr; pointer = pointer->next)
             std::cout << pointer->data << " ";
         std::cout << std::endl;

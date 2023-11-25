@@ -29,7 +29,7 @@ int main() {
     angajat max = cel_mai_mare_salariu(vec_angajati, nr_angajati);
     printf("\n\nAngajatul cu cel mai mare salariu este: \n");
     afisare_angajat(&max);
-    
+
     // Scriem angajatii din vector intr-un fisier "export.txt"
     scriere_fisier(vec_angajati, nr_angajati);
 

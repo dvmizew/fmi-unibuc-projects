@@ -1,13 +1,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
 #define MAX_LEN 50
 
 typedef struct angajat {
     int ID, varsta, salariu;
     char nume[MAX_LEN], prenume[MAX_LEN];
     char post[MAX_LEN];
+
     void (*citireAngajat)(struct angajat *);
+
     void (*afisareAngajat)(struct angajat *);
 } angajat;
 
@@ -28,20 +31,20 @@ void citire_angajat(angajat *ang) {
     printf("Introduceti cifra corespunzatoare postului angajatului: \n");
     scanf("%u", &nr_post);
 
-    switch(nr_post) {
+    switch (nr_post) {
         case 1:
-        strcpy(ang->post, "Casier");
-        break;
+            strcpy(ang->post, "Casier");
+            break;
         case 2:
-        strcpy(ang->post, "Ingrijitor");
-        break;
+            strcpy(ang->post, "Ingrijitor");
+            break;
         case 3:
-        strcpy(ang->post, "Director");
-        break;
+            strcpy(ang->post, "Director");
+            break;
         default:
-        printf("Nu ai introdus un post valid\n");
-        strcpy(ang->post, "Niciun post");
-        break;
+            printf("Nu ai introdus un post valid\n");
+            strcpy(ang->post, "Niciun post");
+            break;
     }
 }
 
@@ -65,7 +68,8 @@ angajat cel_mai_mare_salariu(angajat *vec_angajati, size_t nr_elemente) {
 }
 
 void afisare_angajat(angajat *ang) {
-    printf("ID: %d, Nume: %s, Prenume: %s, Varsta: %d, Post: %s, Salariu: %d.\n", ang->ID, ang->nume, ang->prenume, ang->varsta, ang->post, ang->salariu);
+    printf("ID: %d, Nume: %s, Prenume: %s, Varsta: %d, Post: %s, Salariu: %d.\n", ang->ID, ang->nume, ang->prenume,
+           ang->varsta, ang->post, ang->salariu);
 }
 
 void scriere_fisier(angajat *vec_angajati, size_t nr_elemente) {
@@ -75,8 +79,10 @@ void scriere_fisier(angajat *vec_angajati, size_t nr_elemente) {
         return;
     }
     for (size_t i = 0; i < nr_elemente; i++)
-        fprintf(fisier, "ID: %d, Nume: %s, Prenume: %s, Varsta: %d, Post: %s, Salariu: %d.\n", vec_angajati[i].ID, vec_angajati[i].nume, vec_angajati[i].prenume, vec_angajati[i].varsta, vec_angajati[i].post, vec_angajati[i].salariu);
-    
-    fprintf(fisier,"\nTotal salarii: %lld", calc_salariu_total(vec_angajati, nr_elemente));
+        fprintf(fisier, "ID: %d, Nume: %s, Prenume: %s, Varsta: %d, Post: %s, Salariu: %d.\n", vec_angajati[i].ID,
+                vec_angajati[i].nume, vec_angajati[i].prenume, vec_angajati[i].varsta, vec_angajati[i].post,
+                vec_angajati[i].salariu);
+
+    fprintf(fisier, "\nTotal salarii: %lld", calc_salariu_total(vec_angajati, nr_elemente));
     fclose(fisier);
 }

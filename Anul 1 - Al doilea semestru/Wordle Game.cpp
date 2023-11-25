@@ -9,7 +9,7 @@
 
 const int MAX_TRIES = 6;
 
-int get_green_number(const std::string& guess, const std::string& target) {
+int get_green_number(const std::string &guess, const std::string &target) {
     int contor = 0;
     size_t len = guess.length();
     for (size_t i = 0; i < len; i++) {
@@ -19,12 +19,13 @@ int get_green_number(const std::string& guess, const std::string& target) {
     return contor;
 }
 
-int get_yellow_number(const std::string& guess, const std::string& target) {
+int get_yellow_number(const std::string &guess, const std::string &target) {
     int contor = 0;
     size_t len = guess.length();
     std::unordered_set<char> yellow_characters;
     for (size_t i = 0; i < len; i++) {
-        if ((guess[i] != target[i]) && (target.find(guess[i]) != std::string::npos) && (!yellow_characters.count(guess[i]))) {
+        if ((guess[i] != target[i]) && (target.find(guess[i]) != std::string::npos) &&
+            (!yellow_characters.count(guess[i]))) {
             contor++;
             yellow_characters.insert(guess[i]);
         }
@@ -32,13 +33,13 @@ int get_yellow_number(const std::string& guess, const std::string& target) {
     return contor;
 }
 
-bool valid(const std::string& guess, const std::string& target, int nr_green, int nr_yellow) {
+bool valid(const std::string &guess, const std::string &target, int nr_green, int nr_yellow) {
     int contor_green = get_green_number(guess, target);
     int contor_yellow = get_yellow_number(guess, target);
     return (nr_green == contor_green && nr_yellow <= contor_yellow);
 }
 
-void print_guess(const std::string& guess, const std::string& target) {
+void print_guess(const std::string &guess, const std::string &target) {
     for (size_t i = 0; i < target.length(); i++) {
         if (guess[i] == target[i])
             std::cout << "\033[1;32m" << guess[i] << "\033[0m";
@@ -48,7 +49,7 @@ void print_guess(const std::string& guess, const std::string& target) {
     std::cout << '\n';
 }
 
-bool wordleBkt(const std::string& target, std::string& guess, int attempt) {
+bool wordleBkt(const std::string &target, std::string &guess, int attempt) {
     if (guess == target)
         return true;
     if (attempt >= MAX_TRIES)
@@ -71,8 +72,7 @@ bool wordleBkt(const std::string& target, std::string& guess, int attempt) {
         for (size_t i = 0; i < target.length(); i++)
             if (cuvant[i] == target[i])
                 guess[i] = cuvant[i];
-    }
-    else
+    } else
         std::cout << "The word you entered doesn't correspond to the indications.\n";
 
     std::cout << "Mistery word: ";

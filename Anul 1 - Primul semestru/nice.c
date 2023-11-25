@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
         perror("Eroare la crearea procesului copil");
         return 1;
     }
-    
+
     if (pid == 0) {
         int ret = setpriority(PRIO_PROCESS, getpid(), n);
         if (ret < 0) {
@@ -33,25 +33,22 @@ int main(int argc, char **argv) {
         }
         execvp(argv[2], &argv[2]);
 
-        if(errno) {
+        if (errno) {
             perror("Eroare la execvp");
         }
 
         if (errno == ENOENT) {
             fprintf(stderr, "Comanda nu a fost gasita\n");
-        } 
-        else if (errno == EACCES) {
+        } else if (errno == EACCES) {
             fprintf(stderr, "Nu aveti permisiunea de a executa aceasta comanda\n");
-        } 
-        else {
+        } else {
             perror("Eroare la execvp");
         }
         return 1;
-    }
-    else {
+    } else {
         int status;
         waitpid(pid, &status, 0);
-        if(status != 0) {
+        if (status != 0) {
             printf("Comanda nu s-a putut executa. Cod eroare: %d\n", status);
         }
     }

@@ -10,14 +10,14 @@
 #include <stdlib.h>
 #include <math.h>
 
-double iterative_sum(double* vec, size_t number_of_elements) {
+double iterative_sum(double *vec, size_t number_of_elements) {
     double sum = 0;
     for (size_t i = 0; i < number_of_elements; i++)
         sum += vec[i];
     return sum;
 }
 
-double pairwise_sum(double* vec, int left, int right) {
+double pairwise_sum(double *vec, int left, int right) {
     if (left == right)
         return vec[left];
     else if (left + 1 == right)
@@ -35,7 +35,7 @@ int main() {
     char file_name[256];
     printf("Enter the file name:\n");
     scanf("%s", file_name);
-    FILE* file = fopen(file_name, "r");
+    FILE *file = fopen(file_name, "r");
     if (file == NULL) {
         fprintf(stderr, "Error opening the file\n");
         return 1;
@@ -50,7 +50,7 @@ int main() {
         fclose(file);
         return 1;
     }
-    double* v = (double*)malloc(number_of_elements * sizeof(double));
+    double *v = (double *) malloc(number_of_elements * sizeof(double));
     if (v == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
         fclose(file);

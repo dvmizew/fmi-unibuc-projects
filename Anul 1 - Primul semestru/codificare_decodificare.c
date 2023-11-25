@@ -16,14 +16,14 @@ int rotatie_dreapta(int n, unsigned int biti) {
 }
 
 void citire(student *stud, size_t nr_studenti) {
-    for (size_t i = 1; i <= nr_studenti; i++){
+    for (size_t i = 1; i <= nr_studenti; i++) {
         printf("Introdu datele pentru studentul %d :\n", i);
         scanf("%s %d", stud[i].nume, &stud[i].nr_legitimatie);
     }
 }
 
 void codificare(student *stud, size_t nr_studenti, int r, int key) {
-    if (r < 0 || r > (8 * sizeof(int) - 1)){
+    if (r < 0 || r > (8 * sizeof(int) - 1)) {
         printf("Cheia nu este intre 0 si (2 ^ 5) - 1");
         return;
     }
@@ -38,25 +38,27 @@ void codificare(student *stud, size_t nr_studenti, int r, int key) {
     }
 }
 
-void scriere_fisier(const char* nume_fisier, student *stud, int nr_studenti) {
+void scriere_fisier(const char *nume_fisier, student *stud, int nr_studenti) {
     FILE *fisier = fopen(nume_fisier, "w");
-    if (fisier == NULL){
+    if (fisier == NULL) {
         printf("Fisierul nu a putut fi deschis pentru scriere");
         return;
     }
-    for (size_t i = 1; i <= nr_studenti; i++){
+    for (size_t i = 1; i <= nr_studenti; i++) {
         fprintf(fisier, "%s %d\n", stud[i].nume, stud[i].nr_legitimatie);
     }
     fclose(fisier);
 }
 
 int vocala(char s) {
-    if (s == 'a' || s == 'e' || s == 'i' || s == 'o' || s == 'u' || s == 'A' || s == 'E' || s == 'I' || s == 'O' || s == 'U')
+    if (s == 'a' || s == 'e' || s == 'i' || s == 'o' || s == 'u' || s == 'A' || s == 'E' || s == 'I' || s == 'O' ||
+        s == 'U')
         return 1;
     return 0;
 }
 
-void afisare_decodificat(const char* nume_fisier, student *stud, size_t nr_studenti, int r, int key, const char* nume_fisier_output) {
+void afisare_decodificat(const char *nume_fisier, student *stud, size_t nr_studenti, int r, int key,
+                         const char *nume_fisier_output) {
     FILE *fisier = fopen(nume_fisier, "r");
     if (fisier == NULL) {
         printf("Fisierul nu a putut fi deschis pentru decodificare");
@@ -71,7 +73,7 @@ void afisare_decodificat(const char* nume_fisier, student *stud, size_t nr_stude
 
     student curent;
     size_t i = 0;
-    while(fscanf(fisier, "%s %d", curent.nume, &curent.nr_legitimatie) > 0) {
+    while (fscanf(fisier, "%s %d", curent.nume, &curent.nr_legitimatie) > 0) {
         // decodificare nume
         char *nume_decodificat;
         strcpy(nume_decodificat, strrev(curent.nume));

@@ -67,9 +67,9 @@ int main(int argc, char *argv[]) {
         dimensiune_max = dim;
 
     rewind(fisier);
-    
+
     // alocam direct maximul pe care il putem avea ca sa nu realocam cate 1024 cum faceam inainte
-    char *buff = malloc(sizeof(char) * (dimensiune_max + 1)); 
+    char *buff = malloc(sizeof(char) * (dimensiune_max + 1));
     if (!buff) {
         perror("Malloc-ul nu a functionat");
         free(regula);
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    while(fgets(buff, dimensiune_max + 1, fisier)) {
+    while (fgets(buff, dimensiune_max + 1, fisier)) {
         // am gasit un match, am afisat
         if (strstr(buff, regula) != NULL) {
             printf("%s", buff);
