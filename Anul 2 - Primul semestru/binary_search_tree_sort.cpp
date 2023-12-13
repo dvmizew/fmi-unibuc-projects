@@ -15,28 +15,28 @@ struct Pair {
     int frecv;
 };
 
-int choose_pivot_pos(Pair *v, int st, int dr) {
-    return (st + dr) / 2;
+int choose_pivot_pos(Pair *v, int left, int right) {
+    return (left + right) / 2;
 }
 
-int partition_Lomuto(Pair *v, int st, int dr) {
-    int poz_pivot = choose_pivot_pos(v, st, dr);
-    std::swap(v[poz_pivot], v[dr]);
-    int i = st - 1;
-    for (int j = st; j < dr; j++) {
-        if (v[j].element < v[dr].element) {
+int partition_Lomuto(Pair *v, int left, int right) {
+    int pivot_pos = choose_pivot_pos(v, left, right);
+    std::swap(v[pivot_pos], v[right]);
+    int i = left - 1;
+    for (int j = left; j < right; j++) {
+        if (v[j].element < v[right].element) {
             std::swap(v[++i], v[j]);
         }
     }
-    std::swap(v[i + 1], v[dr]);
+    std::swap(v[i + 1], v[right]);
     return i + 1;
 }
 
-void quicksort(Pair *v, int st, int dr) {
-    if (st < dr) {
-        int poz_pivot = partition_Lomuto(v, st, dr);
-        quicksort(v, st, poz_pivot - 1);
-        quicksort(v, poz_pivot + 1, dr);
+void quicksort(Pair *v, int left, int right) {
+    if (left < right) {
+        int poz_pivot = partition_Lomuto(v, left, right);
+        quicksort(v, left, poz_pivot - 1);
+        quicksort(v, poz_pivot + 1, right);
     }
 }
 
