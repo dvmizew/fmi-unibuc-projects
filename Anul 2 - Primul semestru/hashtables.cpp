@@ -107,22 +107,39 @@ struct hashtable_chaining {
     }
 };
 
+//void intersectieMultiset(hashtable_chaining &h1, hashtable_chaining &h2, hashtable_chaining &rezultat) {
+//    for (int i = 0; i < h1.n; i++) {
+//        for (int j = 0; j < h2.n; j++) {
+//            nod *pointer;
+//            for (pointer = h1.T[i].primul_element; pointer != nullptr; pointer = pointer->next) {
+//                intrare *gasit = h2.T[j].cauta_dupa_cheie(pointer->info.CNP);
+//                if (gasit != nullptr) {
+//                    int min = pointer->info.numar < gasit->numar ? pointer->info.numar : gasit->numar;
+//                    std::cout << min << (char) pointer->info.CNP << ' ';
+//                    rezultat.put(pointer->info.CNP, min);
+//                }
+//            }
+//        }
+//    }
+//}
+
 void intersectieMultiset(hashtable_chaining &h1, hashtable_chaining &h2, hashtable_chaining &rezultat) {
-    for (int i = 0; i < h1.n; ++i) {
-        nod *pointer = h1.T[i].primul_element;
-        while (pointer != nullptr) {
-            int cheie = pointer->info.CNP;
-            int valoare_h2 = h2.get(cheie);
-            if (valoare_h2 != -1) {
-                int min_val = std::min(pointer->info.numar, valoare_h2);
-                min_val = std::min(min_val, pointer->info.frecventa);
-                rezultat.put(cheie, min_val);
-                std::cout << min_val << (char) cheie << ' ';
+    for (int i = 0; i < h1.n; i++) {
+        for (int j = 0; j < h2.n; j++) {
+            nod *pointer;
+            for (pointer = h1.T[i].primul_element; pointer != nullptr; pointer = pointer->next) {
+                intrare *gasit = h2.T[j].cauta_dupa_cheie(pointer->info.CNP);
+                if (gasit != nullptr) {
+                    int min = std::min(pointer->info.numar, gasit->numar);
+                    min = std::min(min, gasit->frecventa); // Considering frecventa
+                    std::cout << min << (char) pointer->info.CNP << ' ';
+                    rezultat.put(pointer->info.CNP, min);
+                }
             }
-            pointer = pointer->next;
         }
     }
 }
+
 
 int main() {
     // 4a 2b 7c  ∩   2a 4b 3c = 2a 2b 3c
@@ -138,6 +155,5 @@ int main() {
 
     hashtable_chaining rezultat(19, hash_diviziune);
     intersectieMultiset(h1, h2, rezultat);
-    //rezultat.afisare();
     return 0;
 }
