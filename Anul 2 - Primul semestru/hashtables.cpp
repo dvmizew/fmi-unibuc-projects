@@ -13,8 +13,8 @@
 #include <cmath>
 
 struct intrare {
-    long long CNP;
-    int numar;
+    long long info;
+    int frequency;
 };
 
 struct nod {
@@ -23,49 +23,49 @@ struct nod {
 };
 
 struct lista {
-    nod *primul_element;
+    nod *first_element;
 
     lista() {
-        primul_element = nullptr;
+        first_element = nullptr;
     }
 
-    void insert_la_inceput(long long cheie, int valoare) {
+    void insert_at_beginning(long long key, int value) {
         nod *nou = new nod;
-        nou->info.CNP = cheie;
-        nou->info.numar = valoare;
-        nou->next = primul_element;
-        primul_element = nou;
+        nou->info.info = key;
+        nou->info.frequency = value;
+        nou->next = first_element;
+        first_element = nou;
     }
 
-    intrare *cauta_dupa_cheie(long long cheie) {
-        nod *curent = primul_element;
-        while (curent != nullptr && curent->info.CNP != cheie)
-            curent = curent->next;
-        if (curent == nullptr)
+    intrare *search_after_key(long long key) {
+        nod *current = first_element;
+        while (current != nullptr && current->info.info != key)
+            current = current->next;
+        if (current == nullptr)
             return nullptr;
-        return &(curent->info);
+        return &(current->info);
     }
 
-    void afisare() {
+    void print() {
         nod *pointer;
-        if (primul_element == nullptr)
+        if (first_element == nullptr)
             std::cout << "prim=NULL";
         else
-            for (pointer = primul_element; pointer != nullptr; pointer = pointer->next)
-                std::cout << "[" << (char) pointer->info.CNP << ", " << pointer->info.numar << "] -> ";
+            for (pointer = first_element; pointer != nullptr; pointer = pointer->next)
+                std::cout << "[" << (char) pointer->info.info << ", " << pointer->info.frequency << "] -> ";
         std::cout << std::endl;
     }
 };
 
-int hash_diviziune(long long cheie, int N) {
-    return cheie % 19;
+int hash_diviziune(long long key, int N) {
+    return key % 19;
 }
 
 const double PHI = 1.6180339887498948482045868343656;
 
-int hash_multiplicare(long long cheie, int N) {
+int hash_multiply(long long key, int N) {
     double integer_part;
-    return (int) (N * modf(PHI * cheie, &integer_part));
+    return (int) (N * modf(PHI * key, &integer_part));
 }
 
 struct hashtable_chaining {
@@ -80,42 +80,42 @@ struct hashtable_chaining {
         T = new lista[n];
     }
 
-    void put(long long cheie, int valoare) {
-        int hash = hashfunc(cheie, n);
+    void put(long long key, int value) {
+        int hash = hashfunc(key, n);
         int index = hash % n;
-        intrare *gasit = T[index].cauta_dupa_cheie(cheie);
-        if (gasit == nullptr)
-            T[index].insert_la_inceput(cheie, valoare);
+        intrare *found = T[index].search_after_key(key);
+        if (found == nullptr)
+            T[index].insert_at_beginning(key, value);
         else
-            gasit->numar = valoare;
+            found->frequency = value;
     }
 
-    int get(long long cheie) {
-        int hash = hashfunc(cheie, n);
+    int get(long long key) {
+        int hash = hashfunc(key, n);
         int index = hash % n;
-        intrare *gasit = T[index].cauta_dupa_cheie(cheie);
+        intrare *gasit = T[index].search_after_key(key);
         if (gasit == nullptr)
             return -1;
         else
-            return gasit->numar;
+            return gasit->frequency;
     }
 
-    void afisare() {
+    void print() {
         for (int i = 0; i < n; i++)
-            T[i].afisare();
+            T[i].print();
     }
 };
 
-void intersectieMultiset(hashtable_chaining &h1, hashtable_chaining &h2, hashtable_chaining &rezultat) {
+void intersectionMultiset(hashtable_chaining &h1, hashtable_chaining &h2, hashtable_chaining &rezultat) {
     for (int i = 0; i < h1.n; ++i) {
-        nod *pointer = h1.T[i].primul_element;
+        nod *pointer = h1.T[i].first_element;
         while (pointer != nullptr) {
-            int cheie = pointer->info.CNP;
-            int valoare_h2 = h2.get(cheie);
-            if (valoare_h2 != -1) {
-                int min_val = std::min(pointer->info.numar, valoare_h2);
-                rezultat.put(cheie, min_val);
-                std::cout << min_val << (char) cheie << ' ';
+            int key = pointer->info.info;
+            int h2_value = h2.get(key);
+            if (h2_value != -1) {
+                int min_val = std::min(pointer->info.frequency, h2_value);
+                rezultat.put(key, min_val);
+                std::cout << min_val << (char) key << ' ';
             }
             pointer = pointer->next;
         }
@@ -134,8 +134,8 @@ int main() {
     h2.put('b', 4);
     h2.put('c', 3);
 
-    hashtable_chaining rezultat(19, hash_diviziune);
-    intersectieMultiset(h1, h2, rezultat);
-    //rezultat.afisare();
+    hashtable_chaining result(19, hash_diviziune);
+    intersectionMultiset(h1, h2, result);
+    //result.print();
     return 0;
 }

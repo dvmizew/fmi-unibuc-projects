@@ -15,12 +15,12 @@ struct Pair {
     int frecv;
 };
 
-int alege_poz_pivot(Pair *v, int st, int dr) {
+int choose_pivot_pos(Pair *v, int st, int dr) {
     return (st + dr) / 2;
 }
 
 int partition_Lomuto(Pair *v, int st, int dr) {
-    int poz_pivot = alege_poz_pivot(v, st, dr);
+    int poz_pivot = choose_pivot_pos(v, st, dr);
     std::swap(v[poz_pivot], v[dr]);
     int i = st - 1;
     for (int j = st; j < dr; j++) {
@@ -40,7 +40,7 @@ void quicksort(Pair *v, int st, int dr) {
     }
 }
 
-void intersectie(Pair *multiset1, int size1, Pair *multiset2, int size2, Pair *rezultat) {
+void intersectie(Pair *multiset1, int size1, Pair *multiset2, int size2, Pair *result) {
     quicksort(multiset1, 0, size1 - 1);
     quicksort(multiset2, 0, size2 - 1);
 
@@ -48,7 +48,7 @@ void intersectie(Pair *multiset1, int size1, Pair *multiset2, int size2, Pair *r
     while (i < size1 && j < size2) {
         if (multiset1[i].element == multiset2[j].element) {
             int min_frecv = std::min(multiset1[i].frecv, multiset2[j].frecv);
-            rezultat[k++] = {multiset1[i].element, min_frecv};
+            result[k++] = {multiset1[i].element, min_frecv};
             i++;
             j++;
         } else if (multiset1[i].element < multiset2[j].element) {
@@ -59,13 +59,13 @@ void intersectie(Pair *multiset1, int size1, Pair *multiset2, int size2, Pair *r
     }
 }
 
-void afisare_pereche(const Pair &pair) {
+void print_pair(const Pair &pair) {
     std::cout << pair.frecv << pair.element << " ";
 }
 
-void afisare_set(Pair *set, int size) {
+void print_set(Pair *set, int size) {
     for (int i = 0; i < size; ++i) {
-        afisare_pereche(set[i]);
+        print_pair(set[i]);
     }
     std::cout << std::endl;
 }
@@ -82,23 +82,23 @@ int main() {
     int size2 = sizeof(set2) / sizeof(Pair);
 
     int dim_max = std::min(size1, size2);
-    Pair *rezultat = new Pair[dim_max];
+    Pair *result = new Pair[dim_max];
 
-    intersectie(set1, size1, set2, size2, rezultat);
+    intersectie(set1, size1, set2, size2, result);
 
-    std::cout << "Primul set: " << std::endl;
-    afisare_set(set1, size1);
-    std::cout << "Al doilea set: " << std::endl;
-    afisare_set(set2, size2);
+    std::cout << "First set: " << std::endl;
+    print_set(set1, size1);
+    std::cout << "Second set: " << std::endl;
+    print_set(set2, size2);
     std::cout << std::endl;
 
-    std::cout << "Intersectie: ";
+    std::cout << "Intersection: ";
     for (int i = 0; i < dim_max; ++i) {
-        std::cout << rezultat[i].frecv << rezultat[i].element << " ";
+        std::cout << result[i].frecv << result[i].element << " ";
     }
     std::cout << std::endl;
 
-    delete[] rezultat;
+    delete[] result;
 
     return 0;
 }
