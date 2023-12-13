@@ -82,7 +82,7 @@ int main() {
     int size2 = sizeof(set2) / sizeof(Pair);
 
     int dim_max = std::min(size1, size2);
-    Pair rezultat[dim_max];
+    Pair *rezultat = new Pair[dim_max];
 
     intersectie(set1, size1, set2, size2, rezultat);
 
@@ -97,6 +97,8 @@ int main() {
         std::cout << rezultat[i].frecv << rezultat[i].element << " ";
     }
     std::cout << std::endl;
+
+    delete[] rezultat;
 
     return 0;
 }
